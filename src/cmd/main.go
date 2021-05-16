@@ -8,9 +8,13 @@ import (
 func main()  {
 	chitanda.Inquisitive().
 		Mount(
+			"v1",
 			classes.NewIndexClass(),
 			classes.NewUserClass(),
 			).
+		Mount("v2",
+			classes.NewUserClass()).
 		Launch()
 }
+
 
