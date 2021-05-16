@@ -3,18 +3,19 @@ package main
 import (
 	"github.com/fyxemmmm/chitanda/chitanda"
 	"github.com/fyxemmmm/chitanda/src/classes"
+	"github.com/fyxemmmm/chitanda/src/middlewares"
 )
 
 func main()  {
 	chitanda.Inquisitive().
-		Mount(
+		Responsible(middlewares.NewUserMiddleware()).
+		Earnest(
 			"v1",
 			classes.NewIndexClass(),
 			classes.NewUserClass(),
 			).
-		Mount("v2",
+		Earnest("v2",
 			classes.NewUserClass()).
-		Launch()
+		Start()
 }
-
 
