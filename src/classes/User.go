@@ -13,14 +13,17 @@ func NewUserClass() *UserClass {
 }
 
 
-func (this *UserClass) UserList() gin.HandlerFunc {
-	return func(context *gin.Context) {
-		context.JSON(200, gin.H{
-			"result": "success",
-		})
-	}
+//func (this *UserClass) UserList() gin.HandlerFunc {
+//	return func(context *gin.Context) {
+//		context.JSON(200, gin.H{
+//			"result": "success",
+//		})
+//	}
+//}
+func (this *UserClass) UserList(ctx *gin.Context) string {
+	return "abc"
 }
 
 func (this *UserClass) Build(chitanda *chitanda.Chitanda)  {
-	chitanda.Handle("GET", "/user", this.UserList())
+	chitanda.Handle("GET", "/user", this.UserList)
 }

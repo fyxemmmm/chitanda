@@ -15,14 +15,17 @@ func (this *Chitanda) Start() {
 	this.Run(":8080")
 }
 
-func (this *Chitanda) Handle(httpMethod, relativePath string, handlers ...gin.HandlerFunc) *Chitanda {
-	this.g.Handle(httpMethod, relativePath, handlers...)
+func (this *Chitanda) Handle(httpMethod, relativePath string, handler interface{}) *Chitanda {
+	if h:= Convert(handler);h != nil {
+		this.g.Handle(httpMethod, relativePath, h)
+	}
+
 	return this
 }
 
 func (this *Chitanda) Responsible(f Responsible) *Chitanda{
 	this.Use(func(context *gin.Context) {
-		err := f.OnRequest()
+		err := f.OnRequest(context)
 		if err != nil {
 			context.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		}else {
@@ -31,7 +34,6 @@ func (this *Chitanda) Responsible(f Responsible) *Chitanda{
 	})
 	return this
 }
-
 
 
 func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
