@@ -1,7 +1,6 @@
 package classes
 
 import (
-	"fmt"
 	"github.com/fyxemmmm/chitanda/chitanda"
 	"github.com/fyxemmmm/chitanda/src/models"
 	"github.com/gin-gonic/gin"
@@ -33,10 +32,8 @@ func (this *UserClass) UserDetail(ctx *gin.Context) chitanda.Model {
 	user := &models.UserModel{}
 	err := ctx.BindUri(user)
 	chitanda.Error(err, "用户id参数不合法")
-	fmt.Println(user.UserId)
-
-	sql := "select id, name, age, email from my.user where id = 2"
-	err = this.GetContext(ctx, user, sql)
+	sql := "select id, name, age, email from my.user where id = ?"
+	err = this.GetContext(ctx, user, sql, user.UserId)
 	if err != nil {
 		chitanda.Error(err)
 	}
