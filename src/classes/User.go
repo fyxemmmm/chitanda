@@ -2,10 +2,12 @@ package classes
 
 import (
 	"github.com/fyxemmmm/chitanda/chitanda"
+	"github.com/fyxemmmm/chitanda/src/models"
 	"github.com/gin-gonic/gin"
 )
 
 type UserClass struct {
+
 }
 
 func NewUserClass() *UserClass {
@@ -13,17 +15,29 @@ func NewUserClass() *UserClass {
 }
 
 
-//func (this *UserClass) UserList() gin.HandlerFunc {
-//	return func(context *gin.Context) {
-//		context.JSON(200, gin.H{
-//			"result": "success",
-//		})
-//	}
-//}
-func (this *UserClass) UserList(ctx *gin.Context) string {
-	return "abc"
+func (this *UserClass) UserTest(ctx *gin.Context) string {
+	return "测试"
 }
 
+
+func (this *UserClass) UserList(ctx *gin.Context) chitanda.Models {
+	users := []*models.UserModel{
+		{UserId: 101, UserName: "feixiang101"},
+		{UserId: 102, UserName: "feixiang102"},
+	}
+	return chitanda.ToModels(users)
+}
+
+func (this *UserClass) UserDetail(ctx *gin.Context) chitanda.Model {
+	user := &models.UserModel{}
+	err := ctx.BindUri(user)
+	chitanda.Error(err, "用户id参数不合法")
+	return user
+}
+
+
 func (this *UserClass) Build(chitanda *chitanda.Chitanda)  {
-	chitanda.Handle("GET", "/user", this.UserList)
+	chitanda.Handle("GET", "/test", this.UserTest)
+	chitanda.Handle("GET", "/user/:id", this.UserDetail)
+	chitanda.Handle("GET", "/user-list", this.UserList)
 }

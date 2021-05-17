@@ -8,7 +8,9 @@ type Chitanda struct {
 }
 
 func Inquisitive() *Chitanda {
-	return &Chitanda{Engine: gin.New()}
+	ctd :=  &Chitanda{Engine: gin.New()}
+	ctd.Use(ErrorHandler())
+	return ctd
 }
 
 func (this *Chitanda) Start() {

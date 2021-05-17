@@ -13,7 +13,11 @@ type Sincerely interface {
 }
 
 func init()  {
-	SincerelyList = []Sincerely{new(SincerelyString)}  //返回这个类型的指针
+	SincerelyList = []Sincerely{ //返回这个类型的指针
+		new(SincerelyString),
+		new(SincerelyModel),
+		new(SincerelyModels),
+	}
 }
 
 // func(ctx *gin.Context) string 断言失败 SincerelyString
@@ -30,6 +34,24 @@ func Convert(handler interface{}) gin.HandlerFunc {
 	}
 	return nil
 }
+
+type SincerelyModel func(ctx *gin.Context) Model
+
+func (this SincerelyModel) SincerelyTo() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.JSON(200, this(context))
+	}
+}
+
+type SincerelyModels func(ctx *gin.Context) Models
+
+func (this SincerelyModels) SincerelyTo() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.Writer.Header().Set("Content-Type", "application/json")
+		context.Writer.WriteString(string(this(context)))
+	}
+}
+
 
 type SincerelyString func(ctx *gin.Context) string
 
