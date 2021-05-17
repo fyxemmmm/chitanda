@@ -1,10 +1,14 @@
 package chitanda
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"reflect"
+)
 
 type Chitanda struct {
 	*gin.Engine
 	g *gin.RouterGroup
+	dba interface{}
 }
 
 func Inquisitive() *Chitanda {
@@ -37,11 +41,23 @@ func (this *Chitanda) Responsible(f Responsible) *Chitanda{
 	return this
 }
 
+func (this *Chitanda) Joyful(dba interface{}) *Chitanda {
+	this.dba = dba
+	return this
+}
+
 
 func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
 	this.g = this.Group(group)
 	for _, class := range classes {
-		class.Build(this)
+		class.Build(this)  // class是控制器类
+		reflectClass := reflect.ValueOf(class).Elem()
+		if reflectClass.NumField() > 0 {
+			if this.dba != nil {
+				reflectClass.Field(0).Set(reflect.New(reflectClass.Field(0).Type().Elem()))
+				reflectClass.Field(0).Elem().Set(reflect.ValueOf(this.dba).Elem())
+			}
+		}
 	}
 	return this
 }

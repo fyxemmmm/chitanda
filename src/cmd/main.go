@@ -8,6 +8,7 @@ import (
 
 func main()  {
 	chitanda.Inquisitive().
+		Joyful(chitanda.NewSqlXAdapter()).
 		Responsible(middlewares.NewUserMiddleware()).
 		Earnest("v2",
 			classes.NewUserClass()).

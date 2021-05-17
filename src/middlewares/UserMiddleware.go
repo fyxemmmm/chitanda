@@ -13,8 +13,6 @@ func NewUserMiddleware() *UserMiddleware {
 }
 
 func (this *UserMiddleware) OnRequest(ctx *gin.Context) error {
-	//fmt.Println("in user middleware")
-	//fmt.Println(ctx.Query("name"))
-	//return errors.New("error!")
+
 	return nil
 }
