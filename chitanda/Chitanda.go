@@ -3,18 +3,19 @@ package chitanda
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"reflect"
 )
 
 type Chitanda struct {
 	*gin.Engine
 	g *gin.RouterGroup
-	props []interface{}
+	//props []interface{}
+	beanFactory *BeanFactory
 }
 
 func Inquisitive() *Chitanda {
-	ctd :=  &Chitanda{Engine: gin.New(), props: make([]interface{}, 0)}
+	ctd :=  &Chitanda{Engine: gin.New(), beanFactory:NewBeanFactory()}
 	ctd.Use(ErrorHandler())
+	ctd.beanFactory.setBean(InitConfig())  //整个配置加载进bean中
 	return ctd
 }
 
@@ -44,45 +45,17 @@ func (this *Chitanda) Responsible(f Responsible) *Chitanda{
 }
 
 func (this *Chitanda) Joyful(beans ...interface{}) *Chitanda {
-	this.props = append(this.props, beans)
+	this.beanFactory.setBean(beans...)
 	return this
 }
 
 
 func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
-	this.g = this.Group(group)
-	for _, class := range classes {
-		class.Build(this)
-		this.setProp(class)
-
+	this.g=this.Group(group)
+	for _,class:=range classes{
+		class.Build(this)  //这一步是关键 。 这样在main里面 就不需要 调用了
+		this.beanFactory.inject(class)
 	}
 	return this
 }
 
-func (this *Chitanda) getProp(t reflect.Type) interface{} {
-	for _, p := range this.props {
-		if t == reflect.TypeOf(p) {
-			return p
-		}
-	}
-	return nil
-}
-
-func (this *Chitanda) setProp(class IClass) {
-	vClass := reflect.ValueOf(class).Elem()
-	vClassT := reflect.TypeOf(class).Elem()
-	for i := 0; i < vClass.NumField(); i ++ {
-		f := vClass.Field(i)
-		if f.IsNil() == false || f.Kind() != reflect.Ptr {
-			continue
-		}
-		if p := this.getProp(f.Type()); p != nil {
-			f.Set(reflect.New(f.Type().Elem()))
-			f.Elem().Set(reflect.ValueOf(p).Elem())
-			if IsAnnotation(f.Type()) {
-				p.(Annotation).SetTag(vClassT.Field(i).Tag)
-			}
-
-		}
-	}
-}

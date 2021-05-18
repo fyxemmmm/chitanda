@@ -3,4 +3,4 @@ server:
 
 config:
   user:
-    score: 100
+    age: 100

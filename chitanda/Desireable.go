@@ -5,7 +5,26 @@ import (
 	"log"
 )
 
-type UserConfig map[string]interface{}
+//递归读取用户配置文件
+func GetConfigValue(m UserConfig,prefix []string,index int) interface{}  {
+	key:=prefix[index]
+	if v,ok:=m[key];ok{
+		if index==len(prefix)-1{ //到了最后一个
+			return v
+		}else{
+			index=index+1
+			if mv,ok:=v.(UserConfig);ok{ //值必须是UserConfig类型
+				return GetConfigValue(mv,prefix,index)
+			}else{
+				return  nil
+			}
+
+		}
+	}
+	return  nil
+}
+
+type UserConfig map[interface{}]interface{}
 
 type ServerConfig struct {
 	Port int32

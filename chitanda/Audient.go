@@ -1,10 +1,15 @@
 package chitanda
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+	"strings"
+)
 
 // 注解
 type Annotation interface {
 	SetTag(tag reflect.StructTag)
+	String() string
 }
 
 var AnnotationList []Annotation
@@ -25,12 +30,27 @@ func init()  {
 
 type Value struct {
 	tag reflect.StructTag
+	Beanfactory *BeanFactory
 }
 
 func (this *Value) SetTag(tag reflect.StructTag) {
 	this.tag = tag
 }
 
-func (this *Value) String() string {
-	return "21"
+func(this *Value) String() string {
+	get_prefix:=this.tag.Get("prefix")
+	if get_prefix==""{
+		return ""
+	}
+	prefix:=strings.Split(get_prefix,".")
+	if config:=this.Beanfactory.GetBean(new(SysConfig));config!=nil{
+		get_value:=GetConfigValue(config.(*SysConfig).Config,prefix,0)
+		if get_value!=nil{
+			return fmt.Sprintf("%v",get_value)
+		}else{
+			return ""
+		}
+	}else{
+		return ""
+	}
 }
