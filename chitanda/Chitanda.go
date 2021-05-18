@@ -8,14 +8,13 @@ import (
 type Chitanda struct {
 	*gin.Engine
 	g *gin.RouterGroup
-	//props []interface{}
 	beanFactory *BeanFactory
 }
 
 func Inquisitive() *Chitanda {
 	ctd :=  &Chitanda{Engine: gin.New(), beanFactory:NewBeanFactory()}
 	ctd.Use(ErrorHandler())
-	ctd.beanFactory.setBean(InitConfig())  //整个配置加载进bean中
+	ctd.beanFactory.setBean(InitConfig())
 	return ctd
 }
 
@@ -53,7 +52,7 @@ func (this *Chitanda) Joyful(beans ...interface{}) *Chitanda {
 func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
 	this.g=this.Group(group)
 	for _,class:=range classes{
-		class.Build(this)  //这一步是关键 。 这样在main里面 就不需要 调用了
+		class.Build(this)
 		this.beanFactory.inject(class)
 	}
 	return this
