@@ -1,6 +1,7 @@
 package chitanda
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"reflect"
 )
@@ -18,7 +19,8 @@ func Inquisitive() *Chitanda {
 }
 
 func (this *Chitanda) Start() {
-	this.Run(":8080")
+	config := InitConfig()
+	this.Run(fmt.Sprintf(":%d", config.Server.Port))
 }
 
 func (this *Chitanda) Handle(httpMethod, relativePath string, handler interface{}) *Chitanda {
@@ -41,8 +43,8 @@ func (this *Chitanda) Responsible(f Responsible) *Chitanda{
 	return this
 }
 
-func (this *Chitanda) Joyful(dba interface{}) *Chitanda {
-	this.props = append(this.props, dba)
+func (this *Chitanda) Joyful(beans ...interface{}) *Chitanda {
+	this.props = append(this.props, beans)
 	return this
 }
 
@@ -53,13 +55,6 @@ func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
 		class.Build(this)
 		this.setProp(class)
 
-		//reflectClass := reflect.ValueOf(class).Elem()
-		//if reflectClass.NumField() > 0 {
-		//	if this.dba != nil {
-		//		reflectClass.Field(0).Set(reflect.New(reflectClass.Field(0).Type().Elem()))
-		//		reflectClass.Field(0).Elem().Set(reflect.ValueOf(this.dba).Elem())
-		//	}
-		//}
 	}
 	return this
 }
@@ -75,6 +70,7 @@ func (this *Chitanda) getProp(t reflect.Type) interface{} {
 
 func (this *Chitanda) setProp(class IClass) {
 	vClass := reflect.ValueOf(class).Elem()
+	vClassT := reflect.TypeOf(class).Elem()
 	for i := 0; i < vClass.NumField(); i ++ {
 		f := vClass.Field(i)
 		if f.IsNil() == false || f.Kind() != reflect.Ptr {
@@ -83,6 +79,10 @@ func (this *Chitanda) setProp(class IClass) {
 		if p := this.getProp(f.Type()); p != nil {
 			f.Set(reflect.New(f.Type().Elem()))
 			f.Elem().Set(reflect.ValueOf(p).Elem())
+			if IsAnnotation(f.Type()) {
+				p.(Annotation).SetTag(vClassT.Field(i).Tag)
+			}
+
 		}
 	}
 }

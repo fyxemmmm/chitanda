@@ -8,6 +8,7 @@ import (
 
 type UserClass struct {
 	*chitanda.SqlXAdapter
+	Age *chitanda.Value `prefix:"user.age"`
 }
 
 func NewUserClass() *UserClass {
@@ -16,7 +17,7 @@ func NewUserClass() *UserClass {
 
 
 func (this *UserClass) UserTest(ctx *gin.Context) string {
-	return "测试"
+	return "测试" + this.Age.String()
 }
 
 

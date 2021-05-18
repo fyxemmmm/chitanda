@@ -52,7 +52,6 @@ func (this SincerelyModels) SincerelyTo() gin.HandlerFunc {
 	}
 }
 
-
 type SincerelyString func(ctx *gin.Context) string
 
 func (this SincerelyString) SincerelyTo() gin.HandlerFunc {

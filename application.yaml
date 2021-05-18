@@ -1,0 +1,6 @@
+server:
+  port: 8081
+
+config:
+  user:
+    score: 100
