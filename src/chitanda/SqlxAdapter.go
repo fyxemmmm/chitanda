@@ -18,7 +18,7 @@ type SqlXAdapter struct {
 
 func NewSqlXAdapter() *SqlXAdapter {
 	db := sqlx.MustConnect("mysql",
-		"root:fyxss1236@tcp(121.37.156.155:3306)/")
+		"root:pwd@tcp(121.37.156.155:3306)/")
 	db.SetConnMaxLifetime(DefaultConMaxLifeTime)
 	db.SetMaxIdleConns(DefaultMaxIdleConns)
 	db.SetMaxOpenConns(DefaultMaxOpenConns)
