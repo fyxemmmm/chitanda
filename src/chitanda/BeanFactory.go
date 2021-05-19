@@ -8,7 +8,7 @@ type BeanFactory struct {
 	beans []interface{}
 }
 func NewBeanFactory() *BeanFactory {
-	bf:= &BeanFactory{beans:make([]interface{},0)}
+	bf:= &BeanFactory{beans: make([]interface{},0)}
 	bf.beans=append(bf.beans,bf)
 	return bf
 }

@@ -12,9 +12,11 @@ type Chitanda struct {
 }
 
 func Inquisitive() *Chitanda {
-	ctd :=  &Chitanda{Engine: gin.New(), beanFactory:NewBeanFactory()}
+	ctd :=  &Chitanda{Engine: gin.New(), beanFactory: NewBeanFactory()}
 	ctd.Use(ErrorHandler())
-	ctd.beanFactory.setBean(InitConfig())
+	config := InitConfig()
+	ctd.beanFactory.setBean(config)
+
 	return ctd
 }
 
@@ -31,7 +33,7 @@ func (this *Chitanda) Handle(httpMethod, relativePath string, handler interface{
 	return this
 }
 
-func (this *Chitanda) Responsible(f Responsible) *Chitanda{
+func (this *Chitanda) Responsible(f Responsible) *Chitanda {
 	this.Use(func(context *gin.Context) {
 		err := f.OnRequest(context)
 		if err != nil {

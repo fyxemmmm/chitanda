@@ -5,14 +5,13 @@ import (
 	"reflect"
 )
 
-
 var SincerelyList []Sincerely
 
 type Sincerely interface {
 	SincerelyTo() gin.HandlerFunc
 }
 
-func init()  {
+func init() {
 	SincerelyList = []Sincerely{ //返回这个类型的指针
 		new(SincerelyString),
 		new(SincerelyModel),
@@ -25,7 +24,8 @@ func init()  {
 
 func Convert(handler interface{}) gin.HandlerFunc {
 	h_ref := reflect.ValueOf(handler) // func(ctx *gin.Context) string
-	for _, r := range SincerelyList {  // 类型指针
+
+	for _, r := range SincerelyList { // 类型指针
 		r_ref := reflect.ValueOf(r).Elem()
 		if h_ref.Type().ConvertibleTo(r_ref.Type()) {
 			r_ref.Set(h_ref) // 反射设置值
@@ -59,3 +59,4 @@ func (this SincerelyString) SincerelyTo() gin.HandlerFunc {
 		context.String(200, this(context))
 	}
 }
+

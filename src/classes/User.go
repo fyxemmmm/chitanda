@@ -1,7 +1,7 @@
 package classes
 
 import (
-	"github.com/fyxemmmm/chitanda/chitanda"
+	"github.com/fyxemmmm/chitanda/src/chitanda"
 	"github.com/fyxemmmm/chitanda/src/models"
 	"github.com/gin-gonic/gin"
 )

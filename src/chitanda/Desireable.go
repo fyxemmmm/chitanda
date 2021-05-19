@@ -27,6 +27,7 @@ type UserConfig map[interface{}]interface{}
 type ServerConfig struct {
 	Port int32
 	Name string
+	Html string
 }
 
 type SysConfig struct {
@@ -34,7 +35,7 @@ type SysConfig struct {
 	Config UserConfig
 }
 
-func InitConfig() *SysConfig  {
+func InitConfig() *SysConfig {
 	config := &SysConfig{
 		Server: &ServerConfig{
 			Port: 8080,
