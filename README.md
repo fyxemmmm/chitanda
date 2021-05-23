@@ -1,8 +1,6 @@
 # chitanda
 Chitanda is a web scaffold which is based on gin.
 
-Chitanda是一个基于gin的web框架。
-
 ## ⌛ Installation
 `https://github.com/fyxemmmm/chitanda-gin`
 
@@ -204,4 +202,4 @@ func (this *UserClass) UserTest(ctx *gin.Context) string {
 ✅ now your configuration file would be effective.
 
 ---
-#### ❤ you can take the complete example in tests/internal
+#### ❤ you can take the complete example in tests/internal.

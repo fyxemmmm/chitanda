@@ -61,7 +61,6 @@ func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
 	return this
 }
 
-
 func (this *Chitanda) Task(expr string, f func()) *Chitanda {
 	_, err := getCronTask().AddFunc(expr, f)
 	if err != nil {
