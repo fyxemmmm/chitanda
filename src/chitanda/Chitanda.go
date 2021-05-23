@@ -3,6 +3,7 @@ package chitanda
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type Chitanda struct {
@@ -16,12 +17,12 @@ func Inquisitive() *Chitanda {
 	ctd.Use(ErrorHandler())
 	config := InitConfig()
 	ctd.beanFactory.setBean(config)
-
 	return ctd
 }
 
 func (this *Chitanda) Start() {
 	config := InitConfig()
+	getCronTask().Start()
 	this.Run(fmt.Sprintf(":%d", config.Server.Port))
 }
 
@@ -50,13 +51,21 @@ func (this *Chitanda) Joyful(beans ...interface{}) *Chitanda {
 	return this
 }
 
-
 func (this *Chitanda) Earnest(group string, classes ...IClass) *Chitanda {
 	this.g=this.Group(group)
 	for _,class:=range classes{
 		class.Build(this)
 		this.beanFactory.inject(class)
+		this.beanFactory.setBean(class)
 	}
 	return this
 }
 
+
+func (this *Chitanda) Task(expr string, f func()) *Chitanda {
+	_, err := getCronTask().AddFunc(expr, f)
+	if err != nil {
+		log.Println(err)
+	}
+	return this
+}

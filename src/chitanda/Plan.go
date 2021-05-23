@@ -1,21 +1,34 @@
 package chitanda
 
-import "sync"
+import (
+	"github.com/robfig/cron/v3"
+	"sync"
+)
 
 type TaskFunc func(params ...interface{})
 
 var (
 	taskList chan *TaskExecutor
 	once sync.Once
+
+	onceCron sync.Once
+	taskCron *cron.Cron  // 定时任务
 )
 
 func init()  {
-	chList := getTaskList() //  任务列表
+	chList := getTaskList()
 	go func() {
 		for t := range chList {
 			doTask(t)
 		}
 	}()
+}
+
+func getCronTask() *cron.Cron {
+	onceCron.Do(func() {
+		taskCron = cron.New(cron.WithSeconds())
+	})
+	return taskCron
 }
 
 func doTask(t *TaskExecutor)  {
@@ -42,7 +55,7 @@ type TaskExecutor struct {
 	callback func()
 }
 
-func NewTaskExecutor(f TaskFunc, p []interface{}, callback func()) *TaskExecutor {
+func newTaskExecutor(f TaskFunc, p []interface{}, callback func()) *TaskExecutor {
 	return &TaskExecutor{f: f, p: p, callback: callback}
 }
 
@@ -56,7 +69,7 @@ func Task(f TaskFunc, callback func(), params ...interface{})  {
 		return
 	}
 	go func() {
-		getTaskList() <- NewTaskExecutor(f, params, callback)  // 增加任务队列
+		getTaskList() <- newTaskExecutor(f, params, callback)  // 增加任务队列
 	}()
 }
 

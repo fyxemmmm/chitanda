@@ -1,9 +1,11 @@
 package classes
 
 import (
+	"fmt"
 	"github.com/fyxemmmm/chitanda/src/chitanda"
 	"github.com/fyxemmmm/chitanda/src/models"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 type UserClass struct {
@@ -19,7 +21,6 @@ func NewUserClass() *UserClass {
 func (this *UserClass) UserTest(ctx *gin.Context) string {
 	return "测试" + this.Age.String()
 }
-
 
 func (this *UserClass) UserList(ctx *gin.Context) chitanda.Models {
 	users := []*models.UserModel{
@@ -38,7 +39,17 @@ func (this *UserClass) UserDetail(ctx *gin.Context) chitanda.Model {
 	if err != nil {
 		chitanda.Error(err)
 	}
+
+	chitanda.Task(this.AddFavour, func() {
+		fmt.Println("doing callback")
+	}, "params 0")
 	return user
+}
+
+func (this *UserClass) AddFavour(params ...interface{}) {
+	fmt.Println(params[0])
+	fmt.Println("add favor")
+	time.Sleep(time.Second * 3)
 }
 
 
