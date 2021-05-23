@@ -2,7 +2,7 @@
 Chitanda is a web scaffold which is based on gin.
 
 ## ⌛ Installation
-`https://github.com/fyxemmmm/chitanda-gin`
+`go get https://github.com/fyxemmmm/chitanda-gin`
 
 ### 🔥 quick start
 ```go
@@ -12,8 +12,6 @@ import (
 	"github.com/fyxemmmm/chitanda-gin/chitanda"
 	"github.com/gin-gonic/gin"
 )
-
-
 
 // 模型
 type UserModel struct {
@@ -202,4 +200,4 @@ func (this *UserClass) UserTest(ctx *gin.Context) string {
 ✅ now your configuration file would be effective.
 
 ---
-#### ❤ you can take the complete example in tests/internal.
+#### ❤ you can take the complete example in tests/internal
