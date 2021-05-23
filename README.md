@@ -48,10 +48,9 @@ func (this *UserClass) Build(chitanda *chitanda.Chitanda)  {
 
 // start server
 func main()  {
-	chitanda.Inquisitive().
-		Earnest("v2",
-			NewUserClass()).
-		Start()
+    chitanda.Inquisitive().
+    Earnest("v2", NewUserClass()).
+    Start()
 }
 ```
 
