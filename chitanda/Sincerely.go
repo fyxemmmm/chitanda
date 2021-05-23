@@ -12,23 +12,21 @@ type Sincerely interface {
 }
 
 func init() {
-	SincerelyList = []Sincerely{ //返回这个类型的指针
+	SincerelyList = []Sincerely{
 		new(SincerelyString),
 		new(SincerelyModel),
 		new(SincerelyModels),
 	}
 }
 
-// func(ctx *gin.Context) string 断言失败 SincerelyString
-// func(ctx *gin.Context) string 断言失败 Sincerely
 
 func Convert(handler interface{}) gin.HandlerFunc {
-	h_ref := reflect.ValueOf(handler) // func(ctx *gin.Context) string
+	h_ref := reflect.ValueOf(handler)
 
-	for _, r := range SincerelyList { // 类型指针
+	for _, r := range SincerelyList {
 		r_ref := reflect.ValueOf(r).Elem()
 		if h_ref.Type().ConvertibleTo(r_ref.Type()) {
-			r_ref.Set(h_ref) // 反射设置值
+			r_ref.Set(h_ref)
 			return r_ref.Interface().(Sincerely).SincerelyTo()
 		}
 	}

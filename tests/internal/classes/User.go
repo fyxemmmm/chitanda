@@ -2,8 +2,8 @@ package classes
 
 import (
 	"fmt"
-	"github.com/fyxemmmm/chitanda/src/chitanda"
-	"github.com/fyxemmmm/chitanda/src/models"
+	"github.com/fyxemmmm/chitanda/chitanda"
+	"github.com/fyxemmmm/chitanda/tests/internal/models"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -16,7 +16,6 @@ type UserClass struct {
 func NewUserClass() *UserClass {
 	return &UserClass{}
 }
-
 
 func (this *UserClass) UserTest(ctx *gin.Context) string {
 	return "测试" + this.Age.String()
@@ -51,7 +50,6 @@ func (this *UserClass) AddFavour(params ...interface{}) {
 	fmt.Println("add favor")
 	time.Sleep(time.Second * 3)
 }
-
 
 func (this *UserClass) Build(chitanda *chitanda.Chitanda)  {
 	chitanda.Handle("GET", "/test", this.UserTest)

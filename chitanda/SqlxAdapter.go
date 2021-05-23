@@ -1,6 +1,7 @@
 package chitanda
 
 import (
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"time"
@@ -16,9 +17,9 @@ type SqlXAdapter struct {
 	*sqlx.DB
 }
 
-func NewSqlXAdapter() *SqlXAdapter {
-	db := sqlx.MustConnect("mysql",
-		"root:pwd@tcp(121.37.156.155:3306)/")
+func NewSqlXAdapter(host string, username string, password string) *SqlXAdapter {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/", username, password, host)
+	db := sqlx.MustConnect("mysql", dsn)
 	db.SetConnMaxLifetime(DefaultConMaxLifeTime)
 	db.SetMaxIdleConns(DefaultMaxIdleConns)
 	db.SetMaxOpenConns(DefaultMaxOpenConns)

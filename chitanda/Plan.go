@@ -50,8 +50,8 @@ func getTaskList() chan *TaskExecutor {
 }
 
 type TaskExecutor struct {
-	f TaskFunc
-	p []interface{}
+	f        TaskFunc
+	p        []interface{}
 	callback func()
 }
 
@@ -69,7 +69,7 @@ func Task(f TaskFunc, callback func(), params ...interface{})  {
 		return
 	}
 	go func() {
-		getTaskList() <- newTaskExecutor(f, params, callback)  // 增加任务队列
+		getTaskList() <- newTaskExecutor(f, params, callback) // 增加任务队列
 	}()
 }
 

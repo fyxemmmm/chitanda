@@ -13,3 +13,4 @@ func NewUserMiddleware() *UserMiddleware {
 func (this *UserMiddleware) OnRequest(ctx *gin.Context) error {
 	return nil
 }
+
