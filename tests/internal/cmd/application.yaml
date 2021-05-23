@@ -1,6 +1,5 @@
 server:
   port: 8081
-  html: views/*
 
 config:
   user:
