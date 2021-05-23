@@ -1,4 +1,4 @@
-module github.com/fyxemmmm/chitanda
+module github.com/fyxemmmm/chitanda-gin
 
 go 1.16
 

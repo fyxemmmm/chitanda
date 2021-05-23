@@ -2,8 +2,8 @@ package classes
 
 import (
 	"fmt"
-	"github.com/fyxemmmm/chitanda/chitanda"
-	"github.com/fyxemmmm/chitanda/tests/internal/models"
+	"github.com/fyxemmmm/chitanda-gin/chitanda"
+	"github.com/fyxemmmm/chitanda-gin/tests/internal/models"
 	"github.com/gin-gonic/gin"
 	"time"
 )

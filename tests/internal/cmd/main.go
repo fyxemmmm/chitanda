@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/fyxemmmm/chitanda/chitanda"
-	"github.com/fyxemmmm/chitanda/tests/internal/classes"
-	"github.com/fyxemmmm/chitanda/tests/internal/middlewares"
+	"github.com/fyxemmmm/chitanda-gin/chitanda"
+	"github.com/fyxemmmm/chitanda-gin/tests/internal/classes"
+	"github.com/fyxemmmm/chitanda-gin/tests/internal/middlewares"
 )
 
 func main()  {
