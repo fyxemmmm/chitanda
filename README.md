@@ -1,5 +1,5 @@
 # chitanda
-Chitanda is a web scaffold which is based on gin.
+Chitanda is a web scaffold which is based on gin
 
 ## ⌛ Installation
 `go get https://github.com/fyxemmmm/chitanda-gin`
